@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+keys-state.json
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+*.log
+.DS_Store
