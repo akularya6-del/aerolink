@@ -1,0 +1,43 @@
+name: Automated Key Tester
+
+on:
+  schedule:
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
+  # Allow manual triggers from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test-keys:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Key Tester
+        run: npm run test-keys
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          AEROLINK_BASE_URL: ${{ secrets.AEROLINK_BASE_URL }}
+          AEROLINK_MODEL: ${{ secrets.AEROLINK_MODEL }}
+          AEROLINK_KEY_1: ${{ secrets.AEROLINK_KEY_1 }}
+          AEROLINK_KEY_2: ${{ secrets.AEROLINK_KEY_2 }}
+          AEROLINK_KEY_3: ${{ secrets.AEROLINK_KEY_3 }}
+          AEROLINK_KEY_4: ${{ secrets.AEROLINK_KEY_4 }}
+          AEROLINK_KEY_5: ${{ secrets.AEROLINK_KEY_5 }}
+          AEROLINK_KEY_6: ${{ secrets.AEROLINK_KEY_6 }}
+          AEROLINK_KEY_7: ${{ secrets.AEROLINK_KEY_7 }}
+          AEROLINK_KEY_8: ${{ secrets.AEROLINK_KEY_8 }}
+          AEROLINK_KEY_9: ${{ secrets.AEROLINK_KEY_9 }}
+          AEROLINK_KEY_10: ${{ secrets.AEROLINK_KEY_10 }}
