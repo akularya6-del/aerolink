@@ -372,11 +372,56 @@ export class KeyManager extends EventEmitter {
     this.storage.saveKeys(Array.from(this.keys.values())).catch(() => {});
   }
 
+  public async enableKey(keyId: string) {
+    await this.mutex.runExclusive(() => {
+      const key = this.keys.get(keyId);
+      if (!key) return;
+      key.cooldownUntil = null;
+      this.setKeyStatus(key, 'available', 're-enabled manually');
+      logger.info(`Key ${key.id} has been re-enabled.`);
+    });
+    this.storage.saveKeys(Array.from(this.keys.values())).catch(() => {});
+  }
+
   public getKeyIdByApiKey(apiKey: string): string | undefined {
     for (const [id, key] of this.keys.entries()) {
       if (key.apiKey === apiKey) return id;
     }
     return undefined;
+  }
+
+  public async addKey(id: string, apiKey: string): Promise<void> {
+    if (this.keys.has(id)) {
+      throw new Error(`Key with ID "${id}" already exists.`);
+    }
+    const newKey: ApiKey = {
+      id,
+      apiKey,
+      status: 'available',
+      cooldownUntil: null,
+      lastUsed: null,
+      requests: 0,
+      successes: 0,
+      failures: 0,
+      rateLimitHits: 0,
+      totalLatencyMs: 0,
+      inputTokens: 0,
+      outputTokens: 0
+    };
+    this.keys.set(id, newKey);
+    await this.storage.saveKeys(Array.from(this.keys.values()));
+    this.emit('keyStatusChanged', { keyId: id, oldStatus: null, newStatus: 'available', reason: 'key added' });
+    logger.info(`Key ${id} added to pool.`);
+  }
+
+  public async removeKey(id: string): Promise<void> {
+    if (!this.keys.has(id)) {
+      throw new Error(`Key with ID "${id}" not found.`);
+    }
+    this.keys.delete(id);
+    await this.storage.saveKeys(Array.from(this.keys.values()));
+    this.emit('keyStatusChanged', { keyId: id, oldStatus: 'available', newStatus: null, reason: 'key removed' });
+    logger.info(`Key ${id} removed from pool.`);
   }
 
   public async testAllKeys(): Promise<{ summary: { total: number, working: number, failed: number }, results: TestResult[] }> {

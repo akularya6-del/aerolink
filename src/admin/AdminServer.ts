@@ -148,6 +148,51 @@ export class AdminServer {
       });
     });
 
+    // Add a new API key at runtime
+    this.app.post('/api/keys', async (req, res) => {
+      const { id, apiKey } = req.body;
+      if (!id || !apiKey) {
+        res.status(400).json({ error: 'Both "id" and "apiKey" are required.' });
+        return;
+      }
+      try {
+        await this.keyManager.addKey(id.trim(), apiKey.trim());
+        res.json({ success: true, message: `Key "${id}" added successfully.` });
+      } catch (err: any) {
+        res.status(409).json({ error: err.message });
+      }
+    });
+
+    // Remove a key at runtime
+    this.app.delete('/api/keys/:id', async (req, res) => {
+      try {
+        await this.keyManager.removeKey(req.params.id);
+        res.json({ success: true, message: `Key "${req.params.id}" removed successfully.` });
+      } catch (err: any) {
+        res.status(404).json({ error: err.message });
+      }
+    });
+
+    // Disable a key
+    this.app.patch('/api/keys/:id/disable', async (req, res) => {
+      try {
+        await this.keyManager.disableKey(req.params.id);
+        res.json({ success: true, message: `Key "${req.params.id}" disabled.` });
+      } catch (err: any) {
+        res.status(404).json({ error: err.message });
+      }
+    });
+
+    // Re-enable a key
+    this.app.patch('/api/keys/:id/enable', async (req, res) => {
+      try {
+        await this.keyManager.enableKey(req.params.id);
+        res.json({ success: true, message: `Key "${req.params.id}" re-enabled.` });
+      } catch (err: any) {
+        res.status(404).json({ error: err.message });
+      }
+    });
+
     this.app.get('/api/events', (req, res) => {
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
