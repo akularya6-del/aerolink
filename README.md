@@ -19,27 +19,6 @@ Production-grade API key manager with weighted round-robin rotation, rate-limit 
 
 This repository contains the source code and configuration for `Aerolink`. 
 
-> [!NOTE]  
-> **Live Demo:** [Link to Live Demo if applicable]  
-> **Documentation:** [Link to Docs if applicable]
-
----
-
-## ✨ Key Features
-- **[Feature 1]**: [Describe a core feature]
-- **[Feature 2]**: [Describe another core feature]
-- **[Feature 3]**: [Describe a third core feature]
-
----
-
-## 📸 Screenshots & Demos
-> [!IMPORTANT]
-> Replace the placeholders below with actual images or GIFs demonstrating the project.
-
-| Dashboard/UI | CLI/Terminal Output |
-| :---: | :---: |
-| <img src="https://placehold.co/600x400/252525/00F0FF?text=Screenshot+1" width="400" /> | <img src="https://placehold.co/600x400/252525/a277ff?text=Screenshot+2" width="400" /> |
-
 ---
 
 ## 🏗️ Architecture & Folder Structure
@@ -81,7 +60,7 @@ aerolink/
 
 ### Prerequisites
 - Node.js / Python / Docker (depending on stack)
-- [PLACEHOLDER: Add specific versions]
+- 
 
 ### Installation
 
@@ -137,21 +116,8 @@ npm run test
 ```
 
 ## 📈 Performance & Security Notes
-- **Performance**: [PLACEHOLDER: Describe caching, CDN, or DB indexing strategies used]
-- **Security**: [PLACEHOLDER: Describe auth, encryption, or CORS policies]
-
----
-
-## 🐛 Known Issues & Troubleshooting
-- **Issue**: [PLACEHOLDER: Known issue 1]
-  - *Fix*: [PLACEHOLDER: How to resolve it]
-
----
-
-## 🗺️ Roadmap & Future Improvements
-- [ ] Add comprehensive E2E testing.
-- [ ] Implement CI/CD pipeline using GitHub Actions.
-- [ ] [PLACEHOLDER: Add a domain-specific future improvement]
+- **Performance**: 
+- **Security**: 
 
 ---
 
@@ -172,5 +138,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-## 🙏 Acknowledgements
-- [PLACEHOLDER: Name of library or inspiration]
